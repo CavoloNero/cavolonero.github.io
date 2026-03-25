@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pro Blackjack - 6 Decks</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="table">
+        <div class="section">
+            <h3>+<span id="dealer-score">?</span></h3>
+            <div id="dealer-hand" class="hand"></div>
+        </div>
+
+        <hr class="card-divider">
+
+        <div class="section">
+            <div id="player-hands"></div>
+        </div>
+    </div>
+
+    <div id="status">Place your bet and Deal!</div>
+
+    <div class="globalcontrols">
+        <div class="bankroll-display">
+            <h2>Balance: £<span id="balance">1000</span></h2>
+            <div class="bet-controls">
+                Total Bet: £<span id="bet-display">0</span>
+                <button class="chip" data-amount="5">5</button>
+                <button class="chip" data-amount="25">25</button>
+                <button class="chip" data-amount="100">100</button>
+                <button id="reset-btn">Reset Bet</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button id="deal-btn">Deal</button>
+        <button id="hit-btn" disabled>Hit</button>
+        <button id="double-btn" disabled>Double</button>
+        <button id="split-btn" disabled>Split</button>
+        <button id="stay-btn" disabled>Stay</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

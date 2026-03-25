@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bitcoin Live Tracker</title>
+    <style>
+        body { font-family: sans-serif; display: flex; flex-direction: column; align-items: center; background: #f4f4f4; }
+        .price-card { background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); margin-top: 50px; text-align: center; }
+        #price { font-size: 3rem; color: #f7931a; font-weight: bold; margin: 10px 0; }
+        .status { font-size: 0.9rem; color: #666; }
+    </style>
+</head>
+<body>
+
+    <div class="price-card">
+        <h2>Bitcoin (BTC) Price</h2>
+        <div id="price">Loading...</div>
+        <div class="status" id="status">Updating every 5 seconds...</div>
+    </div>
+
+    <script>
+        const priceElement = document.getElementById('price');
+        const statusElement = document.getElementById('status');
+
+        async function fetchBTCPrice() {
+            try {
+                // Using CoinGecko's public API
+                const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd');
+                const data = await response.json();
+                
+                const price = data.bitcoin.usd;
+                
+                // Format the price as currency
+                priceElement.innerText = new Intl.NumberFormat('en-US', {
+                    style: 'currency',
+                    currency: 'USD'
+                }).format(price);
+
+                statusElement.innerText = "Last updated: " + new Date().toLocaleTimeString();
+            } catch (error) {
+                console.error("Error fetching price:", error);
+                priceElement.innerText = "Error Loading";
+            }
+        }
+
+        // Run immediately on load
+        fetchBTCPrice();
+
+        // Update every 5000 milliseconds (5 seconds)
+        setInterval(fetchBTCPrice, 5000);
+    </script>
+</body>
+</html>
