@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pro Blackjack - 6 Decks</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="top-bar">
+        <div class="bankroll-display">
+            <h2>Balance: $<span id="balance">1000</span></h2>
+            
+            <div class="bet-controls">
+                Bet: $<input type="number" id="bet-amount" value="10" min="10" step="10">
+                
+                <button id="reset-btn" onclick="resetGame()">Reset $</button>
+            </div>
+        </div>
+
+        <div class="deck-display">
+            <div id="deck-visual" class="deck-stack">
+                <div class="deck-card"></div>
+                <div class="deck-card"></div>
+                <div class="deck-card"></div>
+            </div>
+            <div class="deck-info">
+                <span id="shoe-count">312</span> cards
+            </div>
+        </div>
+    </div>
+
+    <div class="table">
+        
+        <div class="section">
+            <h3>Dealer: <span id="dealer-score">?</span></h3>
+            <div id="dealer-hand" class="hand">
+                </div>
+        </div>
+        
+        <div class="section">
+            <h3>Player: <span id="player-score">0</span></h3>
+            <div id="player-hand" class="hand">
+                </div>
+        </div>
+    </div>
+
+    <div id="status">Place your bet and Deal!</div>
+
+    <div class="controls">
+        <button id="deal-btn" onclick="deal()">Deal</button>
+        <button id="hit-btn" onclick="hit()" disabled>Hit</button>
+        <button id="stay-btn" onclick="stay()" disabled>Stay</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,503 @@
+body {
+    background-color: #E8DCC8;
+    color: white;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+    padding: 20px;
+}
+
+/* Top Bar - Bankroll and Deck Display */
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 90%;
+    max-width: 700px;
+    margin-bottom: 20px;
+    gap: 20px;
+}
+
+/* Bankroll & Betting */
+.bankroll-display {
+    /*background: rgba(0, 0, 0, 0.4);*/
+    padding: 15px 30px;
+    border-radius: 15px;
+    text-align: center;
+    /*border: 2px solid #ffc107;*/
+    flex: 1;
+}
+
+#balance { color: #4caf50; font-weight: bold; }
+
+#bet-amount {
+    background: #222;
+    color: white;
+    border: 1px solid #ffc107;
+    padding: 5px;
+    width: 70px;
+    border-radius: 4px;
+    text-align: center;
+}
+
+/* Deck Display */
+.deck-display {
+    /*background: rgba(0, 0, 0, 0.4);*/
+    padding: 15px 20px;
+    border-radius: 15px;
+    /*border: 2px solid #ffc107;*/
+    text-align: center;
+    min-width: 120px;
+}
+
+.deck-stack {
+    position: relative;
+    width: 80px;
+    height: 110px;
+    margin: 0 auto 10px;
+}
+
+.deck-card {
+    position: absolute;
+    width: 80px;
+    height: 110px;
+    background-image: url('images/CardBack.gif');
+    background-size: cover;
+    background-position: center;
+    border: 5px solid #e3ddd4;
+    border-radius: 10px;
+    box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.deck-card:nth-child(1) {
+    transform: translateY(0px);
+    z-index: 3;
+}
+
+.deck-card:nth-child(2) {
+    transform: translateY(6px) translateX(2px);
+    z-index: 2;
+}
+
+.deck-card:nth-child(3) {
+    transform: translateY(12px) translateX(4px);
+    z-index: 1;
+}
+
+.deck-info {
+    font-size: 0.9rem;
+    color: #ffc107;
+    font-weight: bold;
+}
+
+#shoe-count {
+    color: #4caf50;
+    font-size: 1.1rem;
+}
+
+/* The Table */
+.table {
+    background-color: #E8DCC8;
+    border: 0px solid #8B7355;
+    border-radius: 60px;
+    padding: 40px;
+    width: 90%;
+    max-width: 700px;
+    box-shadow: inset 0 0 10px #8B7355(0,0,0,0.6);
+    text-align: center;
+}
+
+.hand {
+    display: flex;
+    justify-content: center;
+    min-height: 110px;
+    margin: 10px 0;
+    position: relative;
+    align-items: flex-end;
+}
+
+.hand .card {
+    margin: 0;
+    margin-left: -35px;
+    z-index: 1;
+}
+
+.hand .card:first-child {
+    margin-left: 0;
+    z-index: 1;
+}
+
+.hand .card:nth-child(2) {
+    z-index: 2;
+}
+
+.hand .card:nth-child(3) {
+    z-index: 3;
+}
+
+.hand .card:nth-child(4) {
+    z-index: 4;
+}
+
+.hand .card:nth-child(5) {
+    z-index: 5;
+}
+
+.divider {
+    height: 1px;
+    background: rgba(255,255,255,0.2);
+    margin: 20px auto;
+    width: 80%;
+}
+
+/* Base Card Container */
+.card {
+    background: #fdfaf5; /* Matches the cream face in your image */
+    width: 100px;
+    height: 140px;
+    border-radius: 14px;
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 6px; /* Space from edges for the corners */
+    box-sizing: border-box;
+    position: relative;
+    box-shadow: 2px 4px 10px rgba(0,0,0,0.3);
+    border: 1px solid #d1c7b7;
+}
+
+/* Specifically targets the suit symbol under the rank */
+.card-corner span:last-child {
+    font-size: 2rem; /* Increase this value to make it larger */
+    margin-top: -2px;  /* Optional: moves it closer to the value if needed */
+    display: block;    /* Ensures it sits correctly on its own line */
+}
+
+/* If you want the rank (the 'A' or '10') to stay the same size */
+.card-corner span:first-child {
+    font-size: 1.3rem; 
+}
+
+/* Corner Containers */
+.card-corner {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centers the suit symbol under the rank letter/number */
+    line-height: 1;
+    font-size: 1.4rem;
+    font-weight: 400;
+    width: fit-content;
+}
+
+/* ALIGNMENT LOGIC: Pins top to left and bottom to right */
+.card-corner.top {
+    align-self: flex-start; /* Left Aligned */
+}
+
+.card-corner.bottom {
+    align-self: flex-end;   /* Right Aligned */
+    transform: rotate(180deg); /* Flips the whole corner upside down */
+}
+
+/* Large Center Watermark */
+.card-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 5rem; /* Larger center suit */
+    opacity: 0.12;   /* Subtle faded look from your image */
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Colors for the 4-color suit logic */
+.suit-♠ { color: #3C4540; } /* Dark charcoal */
+.suit-♥ { color: #A85751; }
+.suit-♦ { color: #A85751; }
+.suit-♣ { color: #3C4540; }
+
+/* Dealer's face-down card */
+.card.hidden {
+    background-size: cover !important;
+    background-position: center !important;
+    color: transparent !important;
+    border: none;
+    padding: 0;
+}
+
+/* Buttons */
+.controls { margin-top: 25px; }
+button {
+    padding: 12px 25px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    background: #fdfaf5;
+    border: 1px solid #d1c7b7;
+    border-radius: 5px;
+    margin: 5px;
+}
+
+button:hover:not(:disabled) { background: #ded2bd; }
+button:disabled { background: #E8DCC8; color: #888; cursor: not-allowed; }
+#reset-btn { background: #e2fb7f; color: white; padding: 5px 10px; font-size: 0.8rem; }
+
+#status {
+    font-size: 1.4rem;
+    margin-top: 20px;
+    color: #ffeb3b;
+    font-weight: bold;
+}
+
+button small {
+    display: block; /* Puts the hint on a new line inside the button */
+    font-size: 0.7rem;
+    opacity: 0.7;
+    margin-top: 2px;
+}
+
+/* --- RESPONSIVE DESIGN --- */
+
+/* Tablet and smaller (landscape and portrait) */
+@media (max-width: 768px) {
+    body {
+        padding: 12px;
+    }
+
+    .top-bar {
+        width: 95%;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .bankroll-display {
+        padding: 12px 20px;
+        flex: none;
+    }
+
+    .bankroll-display h2 {
+        margin: 5px 0;
+        font-size: 1.2rem;
+    }
+
+    .bet-controls {
+        font-size: 0.9rem;
+        margin-top: 8px;
+    }
+
+    #bet-amount {
+        width: 60px;
+        padding: 4px;
+        font-size: 0.9rem;
+    }
+
+    .deck-display {
+        min-width: auto;
+    }
+
+    .deck-stack {
+        width: 70px;
+        height: 95px;
+    }
+
+    .deck-card {
+        width: 70px;
+        height: 95px;
+    }
+
+    .table {
+        padding: 25px;
+        width: 95%;
+        max-width: 100%;
+    }
+
+    .table h3 {
+        font-size: 1rem;
+        margin: 8px 0;
+    }
+
+    .hand {
+        min-height: 90px;
+    }
+
+    .card {
+        width: 80px;
+        height: 110px;
+        margin: 8px;
+        padding: 4px;
+        border-radius: 10px;
+    }
+
+    .card-corner span:first-child {
+        font-size: 1rem;
+    }
+
+    .card-corner span:last-child {
+        font-size: 1.4rem;
+    }
+
+    .card-center {
+        font-size: 3.5rem;
+    }
+
+    button {
+        padding: 10px 18px;
+        font-size: 0.9rem;
+        margin: 4px;
+    }
+
+    button small {
+        font-size: 0.6rem;
+    }
+
+    #status {
+        font-size: 1.1rem;
+        margin-top: 15px;
+    }
+
+    #reset-btn {
+        padding: 4px 8px;
+        font-size: 0.7rem;
+    }
+}
+
+/* Mobile phones (portrait mode, max 480px) */
+@media (max-width: 480px) {
+    body {
+        padding: 8px;
+    }
+
+    .top-bar {
+        width: 100%;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .bankroll-display {
+        padding: 10px 15px;
+        border-radius: 10px;
+        flex: none;
+    }
+
+    .bankroll-display h2 {
+        font-size: 1rem;
+        margin: 3px 0;
+    }
+
+    .bet-controls {
+        font-size: 0.85rem;
+        margin-top: 6px;
+    }
+
+    #bet-amount {
+        width: 50px;
+        padding: 3px;
+        font-size: 0.8rem;
+    }
+
+    .deck-display {
+        padding: 10px 15px;
+        border-radius: 10px;
+        min-width: auto;
+    }
+
+    .deck-stack {
+        width: 60px;
+        height: 85px;
+    }
+
+    .deck-card {
+        width: 60px;
+        height: 85px;
+        border-radius: 8px;
+    }
+
+    .deck-info {
+        font-size: 0.8rem;
+    }
+
+    #shoe-count {
+        font-size: 0.95rem;
+    }
+
+    .table {
+        padding: 15px;
+        width: 100%;
+        border-radius: 30px;
+    }
+
+    .table h3 {
+        font-size: 0.9rem;
+        margin: 5px 0;
+    }
+
+    .divider {
+        margin: 12px auto;
+    }
+
+    .hand {
+        min-height: 75px;
+        flex-wrap: wrap;
+    }
+
+    .card {
+        width: 65px;
+        height: 95px;
+        margin: 5px;
+        padding: 3px;
+        border-radius: 8px;
+        box-shadow: 1px 2px 5px rgba(0,0,0,0.3);
+    }
+
+    .card-corner {
+        font-size: 1.1rem;
+    }
+
+    .card-corner span:first-child {
+        font-size: 0.85rem;
+    }
+
+    .card-corner span:last-child {
+        font-size: 1.2rem;
+        margin-top: -1px;
+    }
+
+    .card-center {
+        font-size: 2.5rem;
+    }
+
+    .controls {
+        margin-top: 15px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    button {
+        padding: 8px 12px;
+        font-size: 0.85rem;
+        margin: 0;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    button small {
+        font-size: 0.55rem;
+        margin-top: 1px;
+    }
+
+    #status {
+        font-size: 1rem;
+        margin-top: 12px;
+    }
+
+    #reset-btn {
+        padding: 3px 6px;
+        font-size: 0.65rem;
+        width: auto;
+    }
+}
