@@ -172,6 +172,41 @@ function saveBalance() {
     }
 }
 
+function checkDealerPeek() {
+    const upCard = dealerHand[0];
+    const peekValues = ['A', '10', 'J', 'Q', 'K'];
+    if (!peekValues.includes(upCard.value)) return false;
+    if (calculateScore(dealerHand) !== 21) return false;
+
+    // Dealer has blackjack — resolve immediately
+    const pScore = calculateScore(playerHands[0]);
+    const playerBJ = playerHands[0].length === 2 && pScore === 21;
+    const messages = [];
+
+    if (playerBJ) {
+        balance += handBets[0];
+        messages.push('Push — both Blackjack.');
+    } else {
+        document.querySelector('[data-hand-idx="0"] .hand-score')?.classList.add('loss');
+        messages.push(`Dealer Blackjack! -£${handBets[0]}`);
+    }
+
+    if (hasInsurance) {
+        balance += insuranceBet * 2;
+        messages.push(`Insurance wins! +£${insuranceBet}`);
+    }
+
+    document.getElementById('dealer-score').classList.add('win');
+    document.getElementById('status').textContent = messages.join(' | ');
+    currentBet = 5;
+    document.getElementById('bet-display').textContent = currentBet;
+    saveBalance();
+    activeHandIdx = 0;
+    updateUI(true);
+    setControls(false);
+    return true;
+}
+
 function deal() {
     if (currentBet <= 0 || currentBet > balance) {
         alert('Please place a valid bet!');
@@ -204,6 +239,8 @@ function deal() {
     if (dealerHand[0].value === 'A' && calculateScore(playerHands[0]) !== 21) {
         if (confirm('Dealer showing Ace! Take insurance?')) takeInsurance();
     }
+
+    if (checkDealerPeek()) return;
 
     if (calculateScore(playerHands[0]) === 21) {
         runDealer();
