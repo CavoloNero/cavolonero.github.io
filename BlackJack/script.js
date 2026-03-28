@@ -161,6 +161,7 @@ function setControls(isPlaying) {
     document.getElementById('stay-btn').disabled = !isPlaying || isSplitAcesRound;
     document.getElementById('double-btn').disabled = !isPlaying || !hand || hand.length !== 2 || bet > balance || isSplitAcesRound;
     document.getElementById('split-btn').disabled = !isPlaying || !canSplit();
+    document.getElementById('surrender-btn').disabled = !isPlaying || !hand || hand.length !== 2 || playerHands.length > 1 || isSplitAcesRound;
     document.querySelectorAll('.chip').forEach(btn => btn.disabled = isPlaying);
     document.getElementById('reset-btn').style.visibility = isPlaying ? 'hidden' : 'visible';
 }
@@ -458,12 +459,26 @@ async function initAuth() {
 }
 // ─────────────────────────────────────────────────────────────────────────────
 
+function surrender() {
+    const bet = handBets[activeHandIdx];
+    const returned = Math.floor(bet / 2);
+    balance += returned;
+    saveBalance();
+    document.getElementById('status').textContent = `Surrender. -£${bet - returned}`;
+    currentBet = 5;
+    document.getElementById('bet-display').textContent = currentBet;
+    activeHandIdx = 0;
+    updateUI(true);
+    setControls(false);
+}
+
 // Event listeners
 document.getElementById('deal-btn').addEventListener('click', deal);
 document.getElementById('hit-btn').addEventListener('click', hit);
 document.getElementById('double-btn').addEventListener('click', doubleDown);
 document.getElementById('stay-btn').addEventListener('click', stay);
 document.getElementById('split-btn').addEventListener('click', split);
+document.getElementById('surrender-btn').addEventListener('click', surrender);
 document.getElementById('reset-btn').addEventListener('click', resetBet);
 document.querySelectorAll('.chip').forEach(btn => {
     btn.addEventListener('click', () => addBet(parseInt(btn.dataset.amount)));
