@@ -11,6 +11,23 @@ let insuranceBet = 0;
 let hasInsurance = false;
 let isSplitAcesRound = false;
 
+// ── Firebase ──────────────────────────────────────────────────────────────────
+// Replace these placeholder values with your Firebase project config.
+// Firebase Console → Project Settings → Your apps → SDK setup and configuration
+const firebaseConfig = {
+    apiKey:            "AIzaSyDUPqXNE5B9GiO4N2FvMPyraA_fYXAhftY",
+    authDomain:        "blackjack-1572c.firebaseapp.com",
+    projectId:         "blackjack-1572c",
+    storageBucket:     "blackjack-1572c.firebasestorage.app",
+    messagingSenderId: "199310303108",
+    appId:             "1:199310303108:web:fe9daaa5029b89028507d1"
+};
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db   = firebase.firestore();
+let currentUser = null;
+// ─────────────────────────────────────────────────────────────────────────────
+
 let balance = parseInt(localStorage.getItem('bj-balance')) || 1000;
 
 document.getElementById('balance').textContent = balance;
@@ -150,6 +167,9 @@ function setControls(isPlaying) {
 
 function saveBalance() {
     localStorage.setItem('bj-balance', balance);
+    if (currentUser) {
+        db.collection('users').doc(currentUser.uid).set({ balance }, { merge: true });
+    }
 }
 
 function deal() {
@@ -358,6 +378,49 @@ function resetGame() {
     }
 }
 
+// ── Auth ──────────────────────────────────────────────────────────────────────
+function signIn() {
+    auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
+}
+
+function signOut() {
+    auth.signOut();
+}
+
+async function initAuth() {
+    auth.onAuthStateChanged(async (user) => {
+        currentUser = user;
+
+        if (user) {
+            try {
+                const doc = await db.collection('users').doc(user.uid).get();
+                if (doc.exists && doc.data().balance !== undefined) {
+                    balance = doc.data().balance;
+                    localStorage.setItem('bj-balance', balance);
+                    document.getElementById('balance').textContent = balance;
+                }
+            } catch (e) {
+                // Firestore unreachable — keep localStorage balance
+            }
+
+            document.getElementById('user-name').textContent = user.displayName || user.email;
+            const photo = document.getElementById('user-photo');
+            if (user.photoURL) { photo.src = user.photoURL; photo.style.display = 'inline'; }
+            else { photo.style.display = 'none'; }
+            document.getElementById('user-info').style.display = 'flex';
+            document.getElementById('login-btn').style.display = 'none';
+            document.getElementById('logout-btn').style.display = 'inline-block';
+        } else {
+            document.getElementById('user-info').style.display = 'none';
+            document.getElementById('login-btn').style.display = 'inline-block';
+            document.getElementById('logout-btn').style.display = 'none';
+        }
+
+        setControls(false); // re-enables Deal (and disables in-play buttons)
+    });
+}
+// ─────────────────────────────────────────────────────────────────────────────
+
 // Event listeners
 document.getElementById('deal-btn').addEventListener('click', deal);
 document.getElementById('hit-btn').addEventListener('click', hit);
@@ -371,4 +434,4 @@ document.querySelectorAll('.chip').forEach(btn => {
 
 // Start
 shoe = createShoe();
-deal();
+initAuth();

@@ -8,6 +8,15 @@
 </head>
 <body>
 
+    <div id="auth-bar">
+        <span id="user-info">
+            <img id="user-photo" width="24" height="24">
+            <span id="user-name"></span>
+        </span>
+        <button id="login-btn" onclick="signIn()">Sign in with Google</button>
+        <button id="logout-btn" onclick="signOut()">Sign out</button>
+    </div>
+
     <div class="table">
         <div class="section">
             <h3>+<span id="dealer-score">?</span></h3>
@@ -37,13 +46,16 @@
     </div>
 
     <div class="controls">
-        <button id="deal-btn">Deal</button>
+        <button id="deal-btn" disabled>Deal</button>
         <button id="hit-btn" disabled>Hit</button>
         <button id="double-btn" disabled>Double</button>
         <button id="split-btn" disabled>Split</button>
         <button id="stay-btn" disabled>Stay</button>
     </div>
 
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

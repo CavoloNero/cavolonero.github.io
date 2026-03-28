@@ -11,6 +11,39 @@ body {
     box-sizing: border-box;
 }
 
+/* Auth bar */
+#auth-bar {
+    width: 90%;
+    max-width: 700px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 4px 0 2px;
+    font-size: 0.85rem;
+    color: #444;
+}
+
+#user-info {
+    display: none;
+    align-items: center;
+    gap: 6px;
+    color: #444;
+}
+
+#user-photo {
+    border-radius: 50%;
+    vertical-align: middle;
+}
+
+#login-btn, #logout-btn {
+    padding: 5px 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+#logout-btn { display: none; }
+
 /* Bankroll & Betting */
 .bankroll-display {
     padding: 6px 20px;
