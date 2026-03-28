@@ -279,6 +279,18 @@ body {
     border: 1px solid #8B7355;
 }
 
+#new-game-btn {
+    margin-top: 12px;
+    background-color: #c0392b;
+    color: white;
+    font-weight: bold;
+    border: none;
+    padding: 12px 28px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
 button {
     padding: 12px 25px;
     font-size: 1rem;

@@ -205,6 +205,7 @@ function checkDealerPeek() {
     activeHandIdx = 0;
     updateUI(true);
     setControls(false);
+    checkGameOver();
     return true;
 }
 
@@ -383,6 +384,7 @@ function finishGame() {
     activeHandIdx = 0;
     updateUI(true);
     setControls(false);
+    checkGameOver();
 }
 
 function takeInsurance() {
@@ -406,13 +408,21 @@ function resetBet() {
 }
 
 function resetGame() {
-    if (confirm('Reset balance to £1000?')) {
-        balance = 1000;
-        currentBet = 5;
-        saveBalance();
-        document.getElementById('balance').textContent = balance;
-        document.getElementById('bet-display').textContent = currentBet;
-        document.getElementById('status').textContent = 'Reset complete.';
+    balance = 1000;
+    currentBet = 5;
+    saveBalance();
+    document.getElementById('balance').textContent = balance;
+    document.getElementById('bet-display').textContent = currentBet;
+    document.getElementById('status').textContent = 'New game started.';
+    document.getElementById('new-game-btn').style.display = 'none';
+    document.getElementById('deal-btn').disabled = false;
+}
+
+function checkGameOver() {
+    if (balance < 5) {
+        document.getElementById('status').textContent = "You're out of chips!";
+        document.getElementById('deal-btn').disabled = true;
+        document.getElementById('new-game-btn').style.display = 'inline-block';
     }
 }
 
@@ -470,6 +480,7 @@ function surrender() {
     activeHandIdx = 0;
     updateUI(true);
     setControls(false);
+    checkGameOver();
 }
 
 // Event listeners
